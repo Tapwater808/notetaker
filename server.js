@@ -1,16 +1,18 @@
-// add express server
-const express = require ("express");
-// create express app
-const app = express();
-require('./routes/apiroutes')(app);
-require('./routes/htmlroutes')(app);
-//create port
-const PORT = process.env.PORT || 3000;
+
+const express = require("express");
+const fs = require("fs");
+
+var app = express();
+var PORT = process.env.PORT || 8080
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.static('public'));
+app.use("/assets", express.static("./assets"));
 
+require("./routing/html-routes")(app);
+require("./routing/api-routes")(app);
+
+// Starts the server 
 app.listen(PORT, function() {
-    console.log(`Server is listening on PORT: ${PORT}`);
-  });
+    console.log("App listening on PORT " + PORT);
+});
