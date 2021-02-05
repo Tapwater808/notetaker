@@ -1,24 +1,21 @@
-const fs = require("fs");
-const path = require("path")
-const generateID = require("generateID")
-var data = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
+// const db = require('../db/db.json');
+const fs = require('fs');
+const path = require('path');
+const generateUniqueId = require('generate-unique-id');
 
-require('./html-routes.js');
+
+require('./htmlroutes');
 
 module.exports = app => {
-// create notes var
+
     fs.readFile('db/db.json', 'utf8', (err, data) => {
         if (err) throw err;
      
         let notes = JSON.parse(data);
 
-        // API routes
-
-        // get route for /api/notes
         app.get('/api/notes', function (req, res) {
             res.json(notes);
         })
-        // /api/notes post route
         app.post('/api/notes', function (req, res) {
 
             const newNote = {
@@ -35,11 +32,11 @@ module.exports = app => {
             res.json(notes);
             return console.log(`A new note has been added: ${newNote.title}`);
         })
-        // get note with unique id
+        // get note with unique ids
         app.get('/api/notes/:id', function (req, res) {
             res.json(notes[req.params.id]);
         })
-        // delete a note with unique id
+        // delete a note with unique
         app.delete('/api/notes/:id', function (req, res) {
             notes.splice(req.params.id, 1);
             updateNotesData(notes);
@@ -49,7 +46,7 @@ module.exports = app => {
 
     })
 
-// update json file when notes are added or deleted
+// update json file
 function updateNotesData(notes) {
     fs.writeFile('db/db.json', JSON.stringify(notes,'\t'), err => {
         if (err) throw err;
