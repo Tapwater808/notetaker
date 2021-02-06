@@ -1,10 +1,9 @@
-// const db = require('../db/db.json');
 const fs = require('fs');
 const path = require('path');
 const generateUniqueId = require('generate-unique-id');
 
 
-require('./htmlroutes');
+require('./htmlroutes.js');
 
 module.exports = app => {
 
